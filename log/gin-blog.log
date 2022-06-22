@@ -1,0 +1,9 @@
+time="2022-06-22T21:39:51+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=3861 HostName=DESKTOP-SCTNE5E Ip=127.0.0.1 Method=GET Path="/api/v1/article/list/5?page_size=10&page_num=1" SpendTime="137 ms" status=200
+time="2022-06-22T21:40:00+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=704 HostName=DESKTOP-SCTNE5E Ip=127.0.0.1 Method=GET Path=/api/v1/users SpendTime="2 ms" status=200
+time="2022-06-22T21:40:11+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=5091 HostName=DESKTOP-SCTNE5E Ip=127.0.0.1 Method=GET Path=/api/v1/articles SpendTime="54 ms" status=200
+evel=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=53 HostName=DESKTOP-SCTNE5E Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="1 ms" status=200
+time="2022-06-22T21:15:03+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=29 HostName=DESKTOP-SCTNE5E Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="113 ms" status=200
+time="2022-06-22T21:15:06+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=46 HostName=DESKTOP-SCTNE5E Ip=127.0.0.1 Method=POST Path=/api/v1/user/add SpendTime="2 ms" status=200
+ ms" status=200
+time="2022-06-22T20:39:59+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=193 HostName=DESKTOP-SCTNE5E Ip=172.21.80.1 Method=POST Path=/api/v1/login SpendTime="46 ms" status=200
+time="2022-06-22T20:40:16+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=29 HostName=DESKTOP-SCTNE5E Ip=172.21.80.1 Method=DELETE Path=/api/v1/user/1 SpendTime="25 ms" status=200

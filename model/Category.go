@@ -64,13 +64,14 @@ func DeleteCategory(id int) (code int) {
 
 //查询分类列表
 
-func (c *categorymethod) GetCategoryList(PageSize int, PageNum int) []Category {
+func (c *categorymethod) GetCategoryList(PageSize int, PageNum int) ([]Category, int64) {
 	var cate []Category
-	err = db.Limit(PageSize).Offset((PageNum - 1) * PageSize).Find(&cate).Error
+	var total int64
+	err = db.Limit(PageSize).Offset((PageNum - 1) * PageSize).Find(&cate).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil, 0
 	}
-	return cate
+	return cate, total
 }
 
 //查询分类下的所有文章

@@ -50,13 +50,14 @@ func (a *articlemethod) GetArticleList(ctx *gin.Context) {
 		params.PageNum = -1
 	}
 
-	data := model.ArticleMethod.GetArticleList(params.PageSize, params.PageNum)
+	data, code, total := model.ArticleMethod.GetArticleList(params.PageSize, params.PageNum)
 
 	code = errmsg.SUCCESS
 	ctx.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
+			"total":   total,
 			"message": errmsg.GetErrMsg(code),
 		},
 	)
@@ -117,10 +118,11 @@ func (a *articlemethod) GetCategoryArticle(ctx *gin.Context) {
 	if params.PageNum == 0 {
 		params.PageNum = -1
 	}
-	data, code := model.ArticleMethod.GetCategoryArticle(cid, params.PageSize, params.PageNum)
+	data, code, total := model.ArticleMethod.GetCategoryArticle(cid, params.PageSize, params.PageNum)
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }

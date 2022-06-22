@@ -54,13 +54,14 @@ func (c *categorymethod) GetCategoryList(ctx *gin.Context) {
 		params.PageNum = -1
 	}
 
-	data := model.CategoryMethod.GetCategoryList(params.PageSize, params.PageNum)
+	data, total := model.CategoryMethod.GetCategoryList(params.PageSize, params.PageNum)
 
 	code = errmsg.SUCCESS
 	ctx.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
+			"total":   total,
 			"message": errmsg.GetErrMsg(code),
 		},
 	)

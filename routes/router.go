@@ -10,8 +10,14 @@ import (
 
 func InitRouter() {
 	gin.SetMode(utils.AppMode)
-	r := gin.Default()
-
+	r := gin.New()
+	//自定义日志：日志切割，日志软链接
+	//实现日志每天一个log文件，日志软链接最新日志，
+	//example：
+	//time="2022-06-22 20:47:45" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=3851 HostName=DESKTOP-SCTNE5E Ip=172.21.80.1 Method=GET Path="/api/v1/article/list/5?page_size=10&page_num=1" SpendTime="5 ms" status=200
+	r.Use(middleware.Logger())
+	r.Use(gin.Recovery())
+	//公共路由
 	pubRoute := r.Group("/api/v1")
 	{
 		pubRoute.GET("users", v1.UserMethod.GetUserList)
@@ -22,7 +28,7 @@ func InitRouter() {
 		pubRoute.POST("user/add", v1.UserMethod.AddUser)
 		pubRoute.POST("login", v1.Login)
 	}
-
+	//携带token路由
 	auth := r.Group("/api/v1")
 	auth.Use(middleware.JwtToken())
 	{
@@ -37,7 +43,8 @@ func InitRouter() {
 		auth.POST("article/add", v1.AddArticle)
 		auth.PUT("article/:id", v1.EditArticle)
 		auth.DELETE("article/:id", v1.DeleteArticle)
-
+		//上传文件
+		auth.POST("upload", v1.Upload)
 	}
 
 	r.Run(utils.HttpPort)

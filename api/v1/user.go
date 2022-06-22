@@ -3,6 +3,7 @@ package v1
 import (
 	"gin-blog/model"
 	"gin-blog/utils/errmsg"
+	"gin-blog/utils/validator"
 	"net/http"
 	"strconv"
 
@@ -25,10 +26,19 @@ func UserExist(ctx *gin.Context) {
 //添加用户
 func (u *usermethod) AddUser(ctx *gin.Context) {
 	var data model.User
+	var msg string
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		logger.Error("ShouldBind参数绑定失败，", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": errmsg.GetErrMsg(code),
+		})
+		return
+	}
+	msg, code = validator.Validate(&data)
+	if code != errmsg.SUCCESS {
+		ctx.JSON(http.StatusOK, gin.H{
+			"status":  code,
+			"message": msg,
 		})
 		return
 	}
@@ -41,7 +51,6 @@ func (u *usermethod) AddUser(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"data":    data,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
@@ -66,13 +75,14 @@ func (u *usermethod) GetUserList(ctx *gin.Context) {
 		params.PageNum = -1
 	}
 
-	data := model.UserMethod.GetUserList(params.PageSize, params.PageNum)
+	data, total := model.UserMethod.GetUserList(params.PageSize, params.PageNum)
 
 	code = errmsg.SUCCESS
 	ctx.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
+			"total":   total,
 			"message": errmsg.GetErrMsg(code),
 		},
 	)

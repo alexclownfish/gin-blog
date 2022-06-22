@@ -12,9 +12,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"type:varchar(20);not null" json:"username"`
-	Password string `gorm:"type:varchar(20);not null" json:"password"`
-	Role     int    `gorm:"type:int" json:"role"`
+	Username string `gorm:"type:varchar(20);not null" json:"username" validate:"required,min=4,max=15" label:"用户名"`
+	Password string `gorm:"type:varchar(20);not null" json:"password" validate:"required,min=8,max=20" label:"密码"`
+	Role     int    `gorm:"type:int;DEFAULT:2" json:"role" validate:"required,gte=2" label:"角色码"`
 	//Avatar   string
 }
 
@@ -79,13 +79,14 @@ func (u *User) BeforeSave(tx *gorm.DB) (err error) {
 
 //查询用户列表
 
-func (u *usermethod) GetUserList(PageSize int, PageNum int) []User {
+func (u *usermethod) GetUserList(PageSize int, PageNum int) ([]User, int64) {
 	var users []User
-	err = db.Limit(PageSize).Offset((PageNum - 1) * PageSize).Find(&users).Error
+	var total int64
+	err = db.Limit(PageSize).Offset((PageNum - 1) * PageSize).Find(&users).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil, 0
 	}
-	return users
+	return users, total
 }
 
 func ScryptPassWord(password string) string {
@@ -110,7 +111,7 @@ func CheckLogin(username, password string) int {
 	if ScryptPassWord(password) != user.Password {
 		return errmsg.ERROR_PASSWORD_WRONG
 	}
-	if user.Role != 0 {
+	if user.Role != 1 {
 		return errmsg.ERROR_USER_NO_PERMISSION
 	}
 	return errmsg.SUCCESS
