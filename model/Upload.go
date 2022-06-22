@@ -14,6 +14,8 @@ var SecretKey = utils.SecretKey
 var Bucket = utils.Bucket
 var ImgUrl = utils.QiniuServer
 
+//文件上传至七牛云
+
 func UploadFile(file multipart.File, fileSize int64) (string, int) {
 	putPolicy := storage.PutPolicy{
 		Scope: Bucket,
