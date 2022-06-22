@@ -20,7 +20,6 @@ func InitRouter() {
 	//公共路由
 	pubRoute := r.Group("/api/v1")
 	{
-		pubRoute.GET("users", v1.UserMethod.GetUserList)
 		pubRoute.GET("categorys", v1.CategoryMethod.GetCategoryList)
 		pubRoute.GET("articles", v1.ArticleMethod.GetArticleList)
 		pubRoute.GET("article/list/:id", v1.ArticleMethod.GetCategoryArticle)
@@ -33,6 +32,7 @@ func InitRouter() {
 	auth.Use(middleware.JwtToken())
 	{
 		// User模块的路由接口
+		auth.GET("users", v1.UserMethod.GetUserList)
 		auth.PUT("user/:id", v1.UserMethod.EditUser)
 		auth.DELETE("user/:id", v1.UserMethod.DeleteUser)
 		// 分类模块的路由接口
