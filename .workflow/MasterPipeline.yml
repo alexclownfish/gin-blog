@@ -31,17 +31,22 @@ stages:
           - name: BUILD_ARTIFACT
             path:
               - ./output
+        caches:
+          - /go/pkg/mod
+        strategy:
+          retry: '0'
   - name: release
     displayName: 发布
     strategy: naturally
     trigger: auto
     steps:
-      - step: publish@release_artifacts
-        name: publish_release_artifacts
-        displayName: 发布
-        dependArtifact: output
-        version: 1.0.0.0
-        autoIncrement: true
+      - step: tool@review
+        name: tool_review
+        displayName: 人工卡点
+        reviewer:
+          - alexcld
+        strategy:
+          retry: '0'
 permissions:
   - role: admin
     members: []
