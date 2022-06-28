@@ -77,6 +77,16 @@ func (u *User) BeforeSave(tx *gorm.DB) (err error) {
 	return
 }
 
+// GetUser 查询用户
+func GetUser(id int) (User, int) {
+	var user User
+	err := db.Limit(1).Where("ID = ?", id).Find(&user).Error
+	if err != nil {
+		return user, errmsg.ERROR
+	}
+	return user, errmsg.SUCCESS
+}
+
 //查询用户列表
 
 func (u *usermethod) GetUserList(PageSize int, PageNum int) ([]User, int64) {

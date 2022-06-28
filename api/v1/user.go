@@ -116,3 +116,21 @@ func (u *usermethod) DeleteUser(ctx *gin.Context) {
 		"message": errmsg.GetErrMsg(code),
 	})
 }
+
+// GetUserInfo 查询单个用户
+func GetUserInfo(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var maps = make(map[string]interface{})
+	data, code := model.GetUser(id)
+	maps["username"] = data.Username
+	maps["role"] = data.Role
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"data":    maps,
+			"total":   1,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
+
+}

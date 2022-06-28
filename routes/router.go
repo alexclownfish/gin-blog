@@ -17,6 +17,8 @@ func InitRouter() {
 	//time="2022-06-22 20:47:45" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=3851 HostName=DESKTOP-SCTNE5E Ip=172.21.80.1 Method=GET Path="/api/v1/article/list/5?page_size=10&page_num=1" SpendTime="5 ms" status=200
 	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
+	//跨域配置
+	r.Use(middleware.Cors())
 	//公共路由
 	pubRoute := r.Group("/api/v1")
 	{
@@ -35,10 +37,12 @@ func InitRouter() {
 		auth.GET("users", v1.UserMethod.GetUserList)
 		auth.PUT("user/:id", v1.UserMethod.EditUser)
 		auth.DELETE("user/:id", v1.UserMethod.DeleteUser)
+		auth.GET("user/:id", v1.GetUserInfo)
 		// 分类模块的路由接口
 		auth.POST("category/add", v1.AddCategory)
 		auth.PUT("category/:id", v1.EditCategory)
 		auth.DELETE("category/:id", v1.DeleteCategory)
+		auth.GET("category/:id", v1.GetCateInfo)
 		// 文章模块的路由接口
 		auth.POST("article/add", v1.AddArticle)
 		auth.PUT("article/:id", v1.EditArticle)
