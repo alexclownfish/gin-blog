@@ -34,7 +34,7 @@ func AddArticle(ctx *gin.Context) {
 
 //查询文章列表
 func (a *articlemethod) GetArticleList(ctx *gin.Context) {
-
+	title := ctx.Query("title")
 	params := new(struct {
 		PageSize int `form:"page_size"`
 		PageNum  int `form:"page_num"`
@@ -46,21 +46,32 @@ func (a *articlemethod) GetArticleList(ctx *gin.Context) {
 		})
 		return
 	}
+	//switch {
+	//case pageSize >= 100:
+	//	pageSize = 100
+	//case pageSize <= 0:
+	//	pageSize = 10
+	//}
 	if params.PageNum == 0 {
 		params.PageNum = -1
 	}
-
-	data, code, total := model.ArticleMethod.GetArticleList(params.PageSize, params.PageNum)
-
-	code = errmsg.SUCCESS
-	ctx.JSON(
-		http.StatusOK, gin.H{
+	if len(title) == 0 {
+		data, code, total := model.ArticleMethod.GetArticleList(params.PageSize, params.PageNum)
+		ctx.JSON(http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
 			"total":   total,
 			"message": errmsg.GetErrMsg(code),
-		},
-	)
+		})
+		return
+	}
+	data, code, total := model.SearchArticle(title, params.PageSize, params.PageNum)
+	ctx.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
 }
 
 //编辑文章
@@ -69,9 +80,7 @@ func EditArticle(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
 	ctx.ShouldBindJSON(&data)
 	code = model.EditArticle(id, &data)
-	if code == errmsg.ERROR_CATENAME_USED {
-		ctx.Abort()
-	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"messgae": errmsg.GetErrMsg(code),

@@ -54,17 +54,6 @@ func InitDb() {
 	}
 	db.AutoMigrate(&User{}, &Article{}, &Category{})
 
-	//test := Test{
-	//	Title:        "mysql脚本备份策略test2222",
-	//	Cid:          4,
-	//	Desc:         "mysql增量备份全量备份脚本test",
-	//	Content:      "mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本mysql增量备份全量备份脚本",
-	//	Img:          "https://img.alexcld.com/img/author.png",
-	//	CommentCount: 1002,
-	//	ReadCount:    3001,
-	//}
-	//db.Debug().Create(&test)
-
 	// 获取通用数据库对象 sql.DB ，然后使用其提供的功能
 	sqlDB, err := db.DB()
 	if err != nil {
