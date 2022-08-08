@@ -1,7 +1,21 @@
-FROM golang:1.17.7
-MAINTAINER Alex “ywz0207@163.com”
-WORKDIR /opt/web-system/go-build
-ADD . $GOPATH/src/github.com/gin-blog
+FROM golang:alpine as builder
+
+ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct \
+    GO111MODULE=on \
+    CGO_ENABLED=1
+
+#设置时区参数
+ENV TZ=Asia/Shanghai
+RUN echo "https://mirrors.aliyun.com/alpine/v3.4/main/" > /etc/apk/repositories \
+    && apk --no-cache add tzdata zeromq \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo '$TZ' > /etc/timezone
+
+WORKDIR /app
+COPY . /app
+
 RUN go build .
-EXPOSE 6064
+
+EXPOSE 8123
+
 ENTRYPOINT ["./gin-blog"]
