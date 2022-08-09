@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"gin-blog/utils"
 	"github.com/wonderivan/logger"
-	"time"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"time"
 )
 
 //type Test struct {
@@ -67,5 +66,5 @@ func InitDb() {
 	sqlDB.SetMaxOpenConns(100)
 
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	sqlDB.SetConnMaxLifetime(59 * time.Second)
 }

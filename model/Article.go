@@ -31,7 +31,7 @@ func CreateArticle(data *Article) int {
 	if err != nil {
 		return errmsg.ERROR // 500
 	}
-	return errmsg.ERROR
+	return errmsg.SUCCESS
 }
 
 //编辑文章
@@ -71,7 +71,7 @@ func (a *articlemethod) GetArticleList(PageSize int, PageNum int) ([]Article, in
 	var err error
 	var total int64
 	//err = db.Select("article.id, title, img, created_at, updated_at, `desc`, comment_count, read_count, category.name").Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("Created_At DESC").Joins("Category").Find(&articleList).Error
-	err = db.Preload("Category").Limit(PageSize).Offset((PageNum - 1) * PageSize).Count(&total).Find(&articleList).Error
+	err = db.Model(Article{}).Preload("Category").Limit(PageSize).Offset((PageNum - 1) * PageSize).Count(&total).Find(&articleList).Error
 	if err != nil {
 		fmt.Println(err)
 	}
