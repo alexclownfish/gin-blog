@@ -1,0 +1,60 @@
+version: '1.0'
+name: master-pipeline
+displayName: MasterPipeline
+triggers:
+  trigger: auto
+  push:
+    branches:
+      include:
+        - master
+stages:
+  - name: compile
+    displayName: 编译
+    strategy: naturally
+    trigger: auto
+    steps:
+      - step: build@golang
+        name: build_golang
+        displayName: gin-blog构建
+        golangVersion: '1.17'
+        commands:
+          - mkdir output
+          - GOOS=linux GOARCH=amd64 go build -o output/main.amd64 main.go
+          - chmod +X output/main.amd64
+          - ./output/main.amd64
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./output
+        caches:
+          - /go/pkg/mod
+        notify:
+          - certificate: 8b872d00-fe6b-013a-bc4b-4ed97ba66370
+            events:
+              - success
+              - fail
+              - cancel
+              - skip
+            content:
+              - repository
+              - pipeline
+              - stage
+              - task
+              - operator
+              - branch
+              - detail
+            type: dingtalk
+        strategy:
+          retry: '0'
+  - name: release
+    displayName: 发布
+    strategy: naturally
+    trigger: auto
+    steps:
+      - step: tool@review
+        name: tool_review
+        displayName: 人工卡点
+        reviewer:
+          - alexcld
+        strategy:
+          retry: '0'
