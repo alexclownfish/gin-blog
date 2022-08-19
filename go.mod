@@ -1,4 +1,4 @@
-module go-devops/gin-blog
+module gin-blog
 
 go 1.17
 
