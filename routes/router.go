@@ -28,6 +28,7 @@ func InitRouter() {
 		pubRoute.GET("article/info/:id", v1.GetArticleInfo)
 		pubRoute.POST("user/add", v1.UserMethod.AddUser)
 		pubRoute.POST("login", v1.Login)
+		pubRoute.GET("getimgurls", v1.GetImageUrls)
 	}
 	//携带token路由
 	auth := r.Group("/api/v1")
@@ -49,7 +50,6 @@ func InitRouter() {
 		auth.DELETE("article/:id", v1.DeleteArticle)
 		//上传文件
 		auth.POST("upload", v1.Upload)
-		auth.GET("getimgurls", v1.GetImageUrls)
 	}
 
 	r.Run(utils.HttpPort)
