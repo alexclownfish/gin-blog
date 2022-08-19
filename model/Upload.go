@@ -61,7 +61,7 @@ func Upload(file *multipart.FileHeader) (string, int) {
 	//if kind == "soft" {
 	//	key = "soft/" + key
 	//}
-	key := "img/" + file.Filename
+	key := file.Filename
 	err = fromUploader.Put(context.Background(), &ret, upToken, key, src, file.Size, &putExtra)
 	if err != nil {
 		return "", errmsg.ERROR
