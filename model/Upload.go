@@ -2,6 +2,9 @@ package model
 
 import (
 	"context"
+	"math/rand"
+	"strings"
+	//"fmt"
 	"gin-blog/utils"
 	"gin-blog/utils/errmsg"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
@@ -13,6 +16,19 @@ var AccessKey = utils.AccessKey
 var SecretKey = utils.SecretKey
 var Bucket = utils.Bucket
 var ImgUrl = utils.QiniuServer
+
+var CHARS = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+	"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+
+func RandString(lenNum int) string {
+	str := strings.Builder{}
+	length := 52
+	for i := 0; i < lenNum; i++ {
+		str.WriteString(CHARS[rand.Intn(length)])
+	}
+	return str.String()
+}
 
 //var FileUrl = utils.QiniuSoftServer
 //var VideoUrl = utils.QiniuVideoServer
@@ -71,7 +87,7 @@ func Upload(file *multipart.FileHeader) (string, int) {
 	return url, errmsg.SUCCESS
 }
 
-func GetImages(prefix, delimiter, marker string, limit int) (img_urls []string, code int, err error) {
+func GetImages(prefix, delimiter, marker string, limit int) (img_urls map[string]string, code int, err error) {
 	mac := qbox.NewMac(utils.AccessKey, utils.SecretKey)
 	cfg := storage.Config{
 		Zone:          &storage.ZoneHuadong,
@@ -82,7 +98,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (img_urls []string, 
 	// 如果没有特殊需求，默认不需要指定
 	//cfg.Zone=&storage.ZoneHuabei
 	bucketManager := storage.NewBucketManager(mac, &cfg)
-
+	img_urls = make(map[string]string)
 	bucket := utils.Bucket
 	//初始列举marker为空
 	for {
@@ -91,10 +107,22 @@ func GetImages(prefix, delimiter, marker string, limit int) (img_urls []string, 
 			code = errmsg.ERROR
 			break
 		}
-		//print entries
 		for _, data := range entries {
+			//var vs map[string]string = make(map[string]string)
+			var (
+				ks string
+				vs string
+			)
 			url := "https://blog-img.alexcld.com/" + data.Key
-			img_urls = append(img_urls, url)
+			for k, v := range img_urls {
+				img_urls[k] = v
+				//p := RandString(5)
+				k = data.Key
+				v = url
+				ks = k
+				vs = v
+			}
+			img_urls[ks] = vs
 		}
 		if hasNext {
 			marker = nextMarker
