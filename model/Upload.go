@@ -2,9 +2,6 @@ package model
 
 import (
 	"context"
-	"math/rand"
-	"strings"
-
 	//"math/rand"
 	//"strings"
 	//"fmt"
