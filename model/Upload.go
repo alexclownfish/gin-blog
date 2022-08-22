@@ -112,7 +112,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 			break
 		}
 		for _, data := range entries {
-			url := "https://blog-img.alexcld.com/" + data.Key
+			url := "http://blog-img.alexcld.com/" + data.Key
 			//组装map
 			ts = map[string]string{
 				"src": url,
