@@ -2,8 +2,12 @@ package model
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
 	"strings"
+
+	//"math/rand"
+	//"strings"
 	//"fmt"
 	"gin-blog/utils"
 	"gin-blog/utils/errmsg"
@@ -87,7 +91,7 @@ func Upload(file *multipart.FileHeader) (string, int) {
 	return url, errmsg.SUCCESS
 }
 
-func GetImages(prefix, delimiter, marker string, limit int) (img_urls map[string]string, code int, err error) {
+func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[string]string, code int, err error) {
 	mac := qbox.NewMac(utils.AccessKey, utils.SecretKey)
 	cfg := storage.Config{
 		Zone:          &storage.ZoneHuadong,
@@ -98,8 +102,11 @@ func GetImages(prefix, delimiter, marker string, limit int) (img_urls map[string
 	// 如果没有特殊需求，默认不需要指定
 	//cfg.Zone=&storage.ZoneHuabei
 	bucketManager := storage.NewBucketManager(mac, &cfg)
-	img_urls = make(map[string]string)
+	//img_urls = make(map[string]string)
 	bucket := utils.Bucket
+
+	var ts map[string]string
+
 	//初始列举marker为空
 	for {
 		entries, _, nextMarker, hasNext, err := bucketManager.ListFiles(bucket, prefix, delimiter, marker, limit)
@@ -108,21 +115,12 @@ func GetImages(prefix, delimiter, marker string, limit int) (img_urls map[string
 			break
 		}
 		for _, data := range entries {
-			//var vs map[string]string = make(map[string]string)
-			var (
-				ks string
-				vs string
-			)
 			url := "https://blog-img.alexcld.com/" + data.Key
-			for k, v := range img_urls {
-				img_urls[k] = v
-				//p := RandString(5)
-				k = data.Key
-				v = url
-				ks = k
-				vs = v
+			//组装map
+			ts = map[string]string{
+				"src": url,
 			}
-			img_urls[ks] = vs
+			imgUrls = append(imgUrls, ts)
 		}
 		if hasNext {
 			marker = nextMarker
@@ -131,5 +129,5 @@ func GetImages(prefix, delimiter, marker string, limit int) (img_urls map[string
 			break
 		}
 	}
-	return img_urls, errmsg.SUCCESS, err
+	return imgUrls, errmsg.SUCCESS, err
 }
