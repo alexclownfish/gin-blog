@@ -22,7 +22,7 @@ type MyClaims struct {
 
 //生成token
 func SetToken(username string) (string, int) {
-	expireTime := time.Now().Add(10 * time.Hour)
+	expireTime := time.Now().Add(2 * time.Hour)
 	SetClaims := MyClaims{
 		Username: username,
 		//Password: password,
