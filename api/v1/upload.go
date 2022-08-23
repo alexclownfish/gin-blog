@@ -18,7 +18,6 @@ func Upload(ctx *gin.Context) {
 		urls []string
 		code int
 	)
-
 	files := from.File["file"]
 	for _, file := range files {
 		if err != nil {

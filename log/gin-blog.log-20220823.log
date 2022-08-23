@@ -23,3 +23,5 @@ time="2022-08-23 14:58:42" level=info Agent="apifox/1.0.0 (https://www.apifox.cn
 time="2022-08-23 15:00:12" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=281 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="534 ms" status=200
 time="2022-08-23 15:00:45" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=281 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="245 ms" status=200
 time="2022-08-23 15:00:51" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=91 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="338 ms" status=200
+time="2022-08-23 15:06:48" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=261 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="351 ms" status=200
+time="2022-08-23 15:06:59" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=37 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="81 ms" status=200
