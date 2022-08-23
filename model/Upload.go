@@ -2,6 +2,9 @@ package model
 
 import (
 	"context"
+	"github.com/qiniu/go-sdk/v7/auth"
+	"github.com/wonderivan/logger"
+
 	//"math/rand"
 	//"strings"
 	//"fmt"
