@@ -9,22 +9,32 @@ import (
 )
 
 func Upload(ctx *gin.Context) {
-	//kind := ctx.Param("kind")
-	//_, file, _ := ctx.Request.FormFile("file")
-	//fileSize := file.Size
-	f, err := ctx.FormFile("file")
+	from, err := ctx.MultipartForm()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"code": 10010,
-			"msg":  err.Error(),
-		})
-		return
+		panic(err.Error())
 	}
-	url, code := model.Upload(f)
+	var (
+		url  string
+		urls []string
+		code int
+	)
+
+	files := from.File["file"]
+	for _, file := range files {
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"code": 10010,
+				"msg":  err.Error(),
+			})
+			return
+		}
+		url, code = model.Upload(file)
+		urls = append(urls, url)
+	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrMsg(code),
-		"url":     url,
+		"url":     urls,
 	})
 }
 

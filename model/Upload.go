@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/qiniu/go-sdk/v7/auth"
 	"github.com/wonderivan/logger"
-
 	//"math/rand"
 	//"strings"
 	//"fmt"
@@ -59,28 +58,7 @@ func Upload(file *multipart.FileHeader) (string, int) {
 	putExtra := storage.PutExtra{}
 	fromUploader := storage.NewFormUploader(&cfg)
 	ret := storage.PutRet{}
-	//var key string
-	//var resultUrl string
-	//switch kind {
-	//case "img":
-	//	key = "img/" + key
-	//	resultUrl = ImgUrl
-	//case "video":
-	//	key = "video/" + key
-	//	resultUrl = VideoUrl
-	//case "soft":
-	//	key = "soft/" + key
-	//	resultUrl = FileUrl
-	//}
-	//if kind == "img" {
-	//	key = "img/" + key
-	//}
-	//if kind == "video" {
-	//	key = "video/" + key
-	//}
-	//if kind == "soft" {
-	//	key = "soft/" + key
-	//}
+
 	key := file.Filename
 	err = fromUploader.Put(context.Background(), &ret, upToken, key, src, file.Size, &putExtra)
 	if err != nil {
@@ -90,6 +68,10 @@ func Upload(file *multipart.FileHeader) (string, int) {
 	url := ImgUrl + key
 	return url, errmsg.SUCCESS
 }
+
+//func Uploadfiles(files [])  {
+//
+//}
 
 func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[string]string, code int, err error) {
 	mac := qbox.NewMac(utils.AccessKey, utils.SecretKey)
