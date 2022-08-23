@@ -166,7 +166,7 @@ func DeleteQNFiles(keys []string) (code int, err error) {
 	} else {
 		for _, ret := range rets {
 			code = ret.Code
-			logger.Info("%d", ret.Code)
+			logger.Info("Code: %d  Status: 删除成功", ret.Code)
 		}
 	}
 	return code, err
