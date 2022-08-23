@@ -54,7 +54,7 @@ func GetImageUrls(ctx *gin.Context) {
 	})
 }
 
-func DeleteOssFiles(ctx *gin.Context) {
+func DeleteQNOssFiles(ctx *gin.Context) {
 	params := new(struct {
 		Keys []string `json:"keys"`
 	})
@@ -65,7 +65,7 @@ func DeleteOssFiles(ctx *gin.Context) {
 		})
 		return
 	}
-	code, err := model.DeleteFiles(params.Keys)
+	code, err := model.DeleteQNFiles(params.Keys)
 	if err != nil {
 		logger.Error("删除失败：%s", err)
 		return

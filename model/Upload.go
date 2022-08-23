@@ -132,7 +132,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 	return imgUrls, errmsg.SUCCESS, err
 }
 
-func DeleteFiles(keys []string) (code int, err error) {
+func DeleteQNFiles(keys []string) (code int, err error) {
 	mac := auth.New(utils.AccessKey, utils.SecretKey)
 	cfg := storage.Config{
 		Zone: &storage.ZoneHuadong,
@@ -154,10 +154,10 @@ func DeleteFiles(keys []string) (code int, err error) {
 		if _, ok := err.(*storage.ErrorInfo); ok {
 			for _, ret := range rets {
 				code = ret.Code
-				logger.Info(ret)
+				logger.Info("%s", ret)
 				if ret.Code != 200 {
 					code = ret.Code
-					logger.Error("%s\n", ret.Data.Error)
+					logger.Error("%s", ret.Data.Error)
 				}
 			}
 		} else {
@@ -166,7 +166,7 @@ func DeleteFiles(keys []string) (code int, err error) {
 	} else {
 		for _, ret := range rets {
 			code = ret.Code
-			logger.Info("%d\n", ret.Code)
+			logger.Info("%d", ret.Code)
 		}
 	}
 	return code, err
