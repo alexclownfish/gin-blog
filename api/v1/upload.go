@@ -53,3 +53,26 @@ func GetImageUrls(ctx *gin.Context) {
 		"data":    data,
 	})
 }
+
+func DeleteOssFiles(ctx *gin.Context) {
+	params := new(struct {
+		Keys []string `json:"keys"`
+	})
+	if err := ctx.ShouldBindJSON(params); err != nil {
+		logger.Error("Bind参数绑定失败，", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Bind参数绑定失败",
+		})
+		return
+	}
+	code, err := model.DeleteFiles(params.Keys)
+	if err != nil {
+		logger.Error("删除失败：%s", err)
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "删除成功",
+		"code":    code,
+	})
+
+}

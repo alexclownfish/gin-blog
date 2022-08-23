@@ -128,3 +128,43 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 	}
 	return imgUrls, errmsg.SUCCESS, err
 }
+
+func DeleteFiles(keys []string) (code int, err error) {
+	mac := auth.New(utils.AccessKey, utils.SecretKey)
+	cfg := storage.Config{
+		Zone: &storage.ZoneHuadong,
+		// 是否使用https域名进行资源管理
+		UseHTTPS: false,
+	}
+	// 指定空间所在的区域，如果不指定将自动探测
+	// 如果没有特殊需求，默认不需要指定
+	//cfg.Zone=&storage.ZoneHuabei
+	bucketManager := storage.NewBucketManager(mac, &cfg)
+
+	deleteOps := make([]string, 0, len(keys))
+	for _, key := range keys {
+		deleteOps = append(deleteOps, storage.URIDelete(utils.Bucket, key))
+	}
+
+	rets, err := bucketManager.Batch(deleteOps)
+	if err != nil {
+		if _, ok := err.(*storage.ErrorInfo); ok {
+			for _, ret := range rets {
+				code = ret.Code
+				logger.Info(ret)
+				if ret.Code != 200 {
+					code = ret.Code
+					logger.Error("%s\n", ret.Data.Error)
+				}
+			}
+		} else {
+			logger.Error("batch error,%s", err)
+		}
+	} else {
+		for _, ret := range rets {
+			code = ret.Code
+			logger.Info("%d\n", ret.Code)
+		}
+	}
+	return code, err
+}
