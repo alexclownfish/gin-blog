@@ -50,7 +50,7 @@ func InitRouter() {
 		auth.DELETE("article/:id", v1.DeleteArticle)
 		//上传文件
 		auth.POST("upload", v1.Upload)
-		auth.DELETE("delouses", v1.DeleteQNOssFiles)
+		auth.POST("delouses", v1.DeleteQNOssFiles)
 	}
 
 	r.Run(utils.HttpPort)
