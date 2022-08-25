@@ -73,7 +73,7 @@ func Upload(file *multipart.FileHeader) (string, int) {
 //
 //}
 
-func GetImages(prefix, delimiter, marker string, limit, count int) (imgUrls []map[string]string, code int, err error) {
+func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[string]string, code int, err error) {
 	mac := qbox.NewMac(utils.AccessKey, utils.SecretKey)
 	cfg := storage.Config{
 		Zone:          &storage.ZoneHuadong,
@@ -96,16 +96,13 @@ func GetImages(prefix, delimiter, marker string, limit, count int) (imgUrls []ma
 			code = errmsg.ERROR
 			break
 		}
-		for i, data := range entries {
+		for _, data := range entries {
 			url := "http://blog-img.alexcld.com/" + data.Key
 			//组装map
 			ts = map[string]string{
 				"src": url,
 			}
 			imgUrls = append(imgUrls, ts)
-			if i == count {
-				break
-			}
 		}
 		if hasNext {
 			marker = nextMarker
