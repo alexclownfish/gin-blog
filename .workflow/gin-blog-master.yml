@@ -1,0 +1,44 @@
+version: '1.0'
+name: gin-blog-master
+displayName: gin-blog-master
+triggers:
+  trigger: auto
+  push:
+    branches:
+      prefix:
+        - master
+stages:
+  - name: stage-e8193c1f
+    displayName: 未命名
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@docker
+        name: go-build-docker
+        displayName: go-build-docker
+        type: cert
+        certificate: docker-build
+        tag: ${GITEE_PIPELINE_BUILD_NUMBER}
+        dockerfile: ./Dockerfile
+        context: ''
+        artifacts: []
+        isCache: false
+        notify:
+          - certificate: 8b872d00-fe6b-013a-bc4b-4ed97ba66370
+            events:
+              - success
+              - fail
+              - cancel
+              - skip
+            content:
+              - repository
+              - pipeline
+              - stage
+              - task
+              - operator
+              - branch
+              - detail
+            type: dingtalk
+        strategy:
+          retry: '0'
