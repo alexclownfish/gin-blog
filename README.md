@@ -63,3 +63,25 @@ services:
       - ./gin-blog-backend/config/config.ini:/app/config/config.ini
       - ./gin-blog-backend/logs/:/app/log/
 ```
+### nginx.conf
+```
+    server {
+        listen       80;
+        server_name  localhost;
+       
+        location ^~ / {
+            root   /usr/share/nginx/html/front/dist;
+            index  index.html index.htm;
+        }
+        location ^~ /admin {
+            root   /usr/share/nginx/html/backend/dist;
+            index  index.html index.htm;
+        }
+        location ^~ /blog/ { 
+            proxy_pass http://10.0.4.10:8123/;
+            proxy_redirect off;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+```
