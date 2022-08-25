@@ -43,6 +43,7 @@ func GetImageUrls(ctx *gin.Context) {
 		Delimiter string `form:"delimiter"`
 		Marker    string `form:"marker"`
 		Limit     int    `form:"limit"`
+		Count     int    `form:"count"`
 	})
 	if err := ctx.Bind(params); err != nil {
 		logger.Error("Bind参数绑定失败，", err)
@@ -51,15 +52,17 @@ func GetImageUrls(ctx *gin.Context) {
 		})
 		return
 	}
-	data, code, err := model.GetImages(params.Prefix, params.Delimiter, params.Marker, params.Limit)
+	data, code, err := model.GetImages(params.Prefix, params.Delimiter, params.Marker, params.Limit, params.Count)
 	if err != nil {
 		logger.Error("查询列表失败，", err)
 		return
 	}
+	total := len(data)
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": errmsg.GetErrMsg(code),
 		"status":  code,
 		"data":    data,
+		"total":   total,
 	})
 }
 
