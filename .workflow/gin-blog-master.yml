@@ -19,7 +19,7 @@ stages:
         name: build_docker
         displayName: 镜像构建
         type: account
-        repository: alexcld/gin-blog
+        repository: hub.docker.com
         username: alexcld
         password: ywz0207.
         tag: ${GITEE_PIPELINE_BUILD_NUMBER}
