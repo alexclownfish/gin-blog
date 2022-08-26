@@ -9,10 +9,11 @@ triggers:
         - master
 stages:
   - name: stage-e8193c1f
-    displayName: 未命名
+    displayName: 编译打包
     strategy: naturally
     trigger: auto
-    executor: []
+    executor:
+      - alexcld
     steps:
       - step: build@docker
         name: go-build-docker
