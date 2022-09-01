@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wonderivan/logger"
 	"net/http"
+	"sync"
 )
 
 func Upload(ctx *gin.Context) {
@@ -17,8 +18,12 @@ func Upload(ctx *gin.Context) {
 		url  string
 		urls []string
 		code int
+		//rcode int
+		//code  []int
+		wg sync.WaitGroup
 	)
 	files := from.File["file"]
+
 	for _, file := range files {
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
@@ -27,8 +32,19 @@ func Upload(ctx *gin.Context) {
 			})
 			return
 		}
-		url, code = model.Upload(file)
+		wg.Add(1)
+		go func() {
+			url, code = model.Upload(file, &wg)
+		}()
+		wg.Wait()
 		urls = append(urls, url)
+		//code = append(code, cod)
+		//for _, v := range code {
+		//	rcode = v
+		//	if v != 200 {
+		//		logger.Error("上传失败，code：" + string(v))
+		//	}
+		//}
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  code,

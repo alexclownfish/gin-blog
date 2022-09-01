@@ -4,6 +4,8 @@ import (
 	"context"
 	"github.com/qiniu/go-sdk/v7/auth"
 	"github.com/wonderivan/logger"
+	"sync"
+
 	//"math/rand"
 	//"strings"
 	//"fmt"
@@ -38,7 +40,7 @@ var ImgUrl = utils.QiniuServer
 
 //文件上传至七牛云
 
-func Upload(file *multipart.FileHeader) (string, int) {
+func Upload(file *multipart.FileHeader, wg *sync.WaitGroup) (string, int) {
 	src, err := file.Open()
 	if err != nil {
 		return err.Error(), 500
@@ -66,6 +68,7 @@ func Upload(file *multipart.FileHeader) (string, int) {
 	}
 
 	url := ImgUrl + key
+	wg.Done()
 	return url, errmsg.SUCCESS
 }
 
