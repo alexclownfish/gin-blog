@@ -10,18 +10,18 @@ import (
 )
 
 func Upload(ctx *gin.Context) {
-	from, err := ctx.MultipartForm()
-	if err != nil {
-		panic(err.Error())
-	}
 	var (
 		url  string
 		urls []string
 		code int
-		//rcode int
-		//code  []int
-		wg sync.WaitGroup
+		wg   sync.WaitGroup
 	)
+	from, err := ctx.MultipartForm()
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+
 	files := from.File["file"]
 
 	for _, file := range files {
@@ -35,16 +35,10 @@ func Upload(ctx *gin.Context) {
 		wg.Add(1)
 		go func() {
 			url, code = model.Upload(file, &wg)
+			urls = append(urls, url)
+			logger.Info("image url：" + url + "上传成功")
 		}()
 		wg.Wait()
-		urls = append(urls, url)
-		//code = append(code, cod)
-		//for _, v := range code {
-		//	rcode = v
-		//	if v != 200 {
-		//		logger.Error("上传失败，code：" + string(v))
-		//	}
-		//}
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -98,7 +92,7 @@ func DeleteQNOssFiles(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "删除成功",
+		"message": errmsg.GetErrMsg(code),
 		"code":    code,
 	})
 

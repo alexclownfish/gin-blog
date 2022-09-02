@@ -64,12 +64,12 @@ func Upload(file *multipart.FileHeader, wg *sync.WaitGroup) (string, int) {
 	key := file.Filename
 	err = fromUploader.Put(context.Background(), &ret, upToken, key, src, file.Size, &putExtra)
 	if err != nil {
-		return "", errmsg.ERROR
+		return "", errmsg.FILES_UPLOAD_FAILED
 	}
 
 	url := ImgUrl + key
 	wg.Done()
-	return url, errmsg.SUCCESS
+	return url, errmsg.FILES_UPLOAD_SUCCESS
 }
 
 //func Uploadfiles(files [])  {
@@ -96,7 +96,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 	for {
 		entries, _, nextMarker, hasNext, err := bucketManager.ListFiles(bucket, prefix, delimiter, marker, limit)
 		if err != nil {
-			code = errmsg.ERROR
+			code = errmsg.FILES_GETLIST_FAILED
 			break
 		}
 		for _, data := range entries {
@@ -106,6 +106,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 				"src": url,
 			}
 			imgUrls = append(imgUrls, ts)
+			code = errmsg.FILES_GETLIST_SUCCESS
 		}
 		if hasNext {
 			marker = nextMarker
@@ -114,7 +115,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 			break
 		}
 	}
-	return imgUrls, errmsg.SUCCESS, err
+	return imgUrls, code, err
 }
 
 func DeleteQNFiles(keys []string) (code int, err error) {
@@ -141,8 +142,8 @@ func DeleteQNFiles(keys []string) (code int, err error) {
 				code = ret.Code
 				logger.Info("%s", ret)
 				if ret.Code != 200 {
-					code = ret.Code
-					logger.Error("%s", ret.Data.Error)
+					code = errmsg.FILES_DELETE_FAILED
+					logger.Error(ret.Data.Error)
 				}
 			}
 		} else {
@@ -150,8 +151,14 @@ func DeleteQNFiles(keys []string) (code int, err error) {
 		}
 	} else {
 		for _, ret := range rets {
-			code = ret.Code
-			logger.Info("Code: %d  Status: 删除成功", ret.Code)
+			if ret.Code == 200 {
+				code = errmsg.FILES_DELETE_SUCCESS
+				logger.Info("Code: %d  Status: 删除成功", code)
+			}
+			if ret.Code == 612 {
+				code = errmsg.FILES_ALERDYA_DELETE
+				logger.Info("Code: %d  Status: 删除成功,无需重复删除", code)
+			}
 		}
 	}
 	return code, err

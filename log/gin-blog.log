@@ -1,8 +1,11 @@
-time="2022-09-01T17:06:45+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=250 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="235 ms" status=200
-e="2022-09-01T16:15:01+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=72 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/login SpendTime="197 ms" status=200
-time="2022-09-01T16:15:15+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=211 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/login SpendTime="136 ms" status=200
-time="2022-09-01T16:15:48+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=45 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="4 ms" status=200
-time="2022-09-01T16:16:18+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=10171 HostName=ISS Ip=127.0.0.1 Method=GET Path="/api/v1/getimgurls?count=10&limit=1000" SpendTime="204 ms" status=200
-ime="2022-08-23T12:58:58+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=106 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="90 ms" status=200
-time="2022-08-23T12:59:03+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=37 HostName=ISS Ip=127.0.0.1 Method=DELETE Path="/api/v1/delouses?keys=" SpendTime="90 ms" status=200
-taSize=4959365 HostName=ISS Ip=127.0.0.1 Method=GET Path="/api/v1/getimgurls?limit=1000" SpendTime="540 ms" status=200
+time="2022-09-02T16:41:39+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=44 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="100 ms" status=200
+time="2022-09-02T16:41:44+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=59 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="28 ms" status=200
+ime="2022-09-02T16:40:39+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=69 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="15 ms" status=200
+i/v1/getimgurls SpendTime="1 ms" status=200
+time="2022-09-02T16:31:07+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=10431 HostName=ISS Ip=127.0.0.1 Method=GET Path="/api/v1/getimgurls?limit=1000" SpendTime="176 ms" status=200
+time="2022-09-02T16:31:24+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=196 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/upload SpendTime="199 ms" status=200
+time="2022-09-02T16:31:44+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=10431 HostName=ISS Ip=127.0.0.1 Method=GET Path="/api/v1/getimgurls?limit=1000" SpendTime="110 ms" status=200
+time="2022-09-02T16:33:03+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=10431 HostName=ISS Ip=127.0.0.1 Method=GET Path="/api/v1/getimgurls?limit=1000" SpendTime="123 ms" status=200
+time="2022-09-02T16:33:42+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=36 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="44 ms" status=200
+time="2022-09-02T16:34:14+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=36 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="19 ms" status=200
+time="2022-09-02T16:34:17+08:00" level=info Agent="apifox/1.0.0 (https://www.apifox.cn)" DataSize=36 HostName=ISS Ip=127.0.0.1 Method=POST Path=/api/v1/delouses SpendTime="21 ms" status=200
