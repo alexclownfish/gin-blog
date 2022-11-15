@@ -69,7 +69,7 @@ func Upload(file *multipart.FileHeader, wg *sync.WaitGroup) (string, int) {
 
 	url := ImgUrl + key
 	wg.Done()
-	return url, errmsg.FILES_UPLOAD_SUCCESS
+	return url, errmsg.SUCCESS
 }
 
 //func Uploadfiles(files [])  {
@@ -106,7 +106,7 @@ func GetImages(prefix, delimiter, marker string, limit int) (imgUrls []map[strin
 				"src": url,
 			}
 			imgUrls = append(imgUrls, ts)
-			code = errmsg.FILES_GETLIST_SUCCESS
+			code = errmsg.SUCCESS
 		}
 		if hasNext {
 			marker = nextMarker
@@ -152,7 +152,7 @@ func DeleteQNFiles(keys []string) (code int, err error) {
 	} else {
 		for _, ret := range rets {
 			if ret.Code == 200 {
-				code = errmsg.FILES_DELETE_SUCCESS
+				code = errmsg.SUCCESS
 				logger.Info("Code: %d  Status: 删除成功", code)
 			}
 			if ret.Code == 612 {
