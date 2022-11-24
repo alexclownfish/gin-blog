@@ -5,6 +5,7 @@ import (
 	"gin-blog/model"
 	"gin-blog/utils/errmsg"
 	"github.com/gin-gonic/gin"
+	"github.com/wonderivan/logger"
 	"net/http"
 )
 
@@ -18,6 +19,7 @@ func Login(ctx *gin.Context) {
 
 	if code == errmsg.SUCCESS {
 		token, _ = middleware.SetToken(data.Username)
+		logger.Info("token: " + token)
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"loginName": data.Username,
