@@ -1,4 +1,5 @@
 # golang博客系统 vue+gin 联动
+gitee,github两个仓库同步
 ## docker-compose快速启动
 ### blog-compose.yml
 ```
