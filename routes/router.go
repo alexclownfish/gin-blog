@@ -13,7 +13,6 @@ func InitRouter() {
 	r := gin.New()
 	//自定义日志：日志切割，日志软链接
 	//实现日志每天一个log文件，日志软链接最新日志，
-	//example：
 	//time="2022-06-22 20:47:45" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=3851 HostName=DESKTOP-SCTNE5E Ip=172.21.80.1 Method=GET Path="/api/v1/article/list/5?page_size=10&page_num=1" SpendTime="5 ms" status=200
 	r.Use(middleware.Logger())
 	r.Use(gin.Recovery())
@@ -52,6 +51,5 @@ func InitRouter() {
 		auth.POST("upload", v1.Upload)
 		auth.POST("delouses", v1.DeleteQNOssFiles)
 	}
-
 	r.Run(utils.HttpPort)
 }
